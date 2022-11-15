@@ -67,15 +67,16 @@ tr:nth-child(even) {
 
 </style></head>
 <body>
-<h1>%s fields dictionary entry</h1>
+<h1>%s payload data dictionary</h1>
     <table>
             <tr>
                 <th>Name</th>
                 <th>Definition</th>
                 <th>Datatype</th>
-            </tr>"""%object
+            </tr>"""%(object[0].upper()+object[1:])
             for field in dictionary_entry['fields']:
                 html+="<tr><td>%s</td><td>%s</td><td>%s</td></tr>"%(field['name'],field['description'],field['datatype'])
             html+="</table></body></html>"
+            print(field['name'][0].upper()+field['name'][1:])
             ymlfile.close()
             return HTMLResponse(html)
