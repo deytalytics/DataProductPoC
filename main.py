@@ -74,8 +74,9 @@ tr:nth-child(even) {
                 <th>Definition</th>
                 <th>Datatype</th>
             </tr>"""%(object[0].upper()+object[1:])
-            for field in dictionary_entry['fields']:
-                html+="<tr><td>%s</td><td>%s</td><td>%s</td></tr>"%(field['name'],field['description'],field['datatype'])
+            #Print out the entire table row for the dictionary entry
+            for row in dictionary_entry['fields']:
+                html+="<tr><td>%s</td><td>%s</td><td>%s</td></tr>"%tuple(row.values())
             html+="</table></body></html>"
             ymlfile.close()
             return HTMLResponse(html)
