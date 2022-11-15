@@ -3,7 +3,7 @@ description: |
  ## Description
  This API returns Countries Data as defined by the International Standards Organisation (ISO) 
  ## Data Sharing Agreement
- The ISO Countries data will be updated every 3 months in Golden Veritas
+ The ISO Countries data will be updated every 3 months in the master data management system
  ## License Info
  [FastAPI license](https://fastapi.tiangolo.com/#license)
  ## Data Dictionary Entry
