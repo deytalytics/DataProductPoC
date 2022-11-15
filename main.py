@@ -28,10 +28,10 @@ def read_root(object:str="countries", format: str="json"):
         return FileResponse(path=getcwd() + "/data/"+filename, media_type='application/octet-stream', filename=filename)
 
 @app.get("/dictionary")
-def read_dictionary(object:str="countries", format:str="yml"):
+def read_dictionary(object:str="countries", format:str="json"):
     with open("metadata/schema/"+object+".yml") as ymlfile:
         dictionary_entry = yaml.safe_load(ymlfile)
-        if format == "yml":
+        if format == "json":
             ymlfile.close()
             return dictionary_entry
         else:
