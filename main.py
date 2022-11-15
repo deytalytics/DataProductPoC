@@ -77,6 +77,5 @@ tr:nth-child(even) {
             for field in dictionary_entry['fields']:
                 html+="<tr><td>%s</td><td>%s</td><td>%s</td></tr>"%(field['name'],field['description'],field['datatype'])
             html+="</table></body></html>"
-            print(field['name'][0].upper()+field['name'][1:])
             ymlfile.close()
             return HTMLResponse(html)
