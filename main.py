@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from fastapi.responses import FileResponse, HTMLResponse
 from os import getcwd
 from CSVtoJSON import csv_to_json
-import yaml,json
+import yaml,json, os
 
 ymlf="metadata/data_product_poc.yml"
 with open(ymlf) as yamlfile:
@@ -17,25 +17,34 @@ csv_to_json("countries")
 #Handle requests to root. Provide defaults for object of 'countries' and API message format of JSON
 @app.get("/REST/{version}/{object}")
 def read_root(version, object, format: str="json"):
-    #If the end user hasn't provided a format or has requested a format of JSON
-    if format=="json":
-        with open("data/"+object+".json", "r") as file:
-            jsonData = json.load(file)
-        file.close()
-        return jsonData
+    print(version, object, format)
+    fname = "data/" + object + ".json"
+    #If file exists
+    if os.path.isfile(fname):
+        #If the end user hasn't provided a format or has requested a format of JSON
+        if format=="json":
+            with open(fname, "r") as file:
+                jsonData = json.load(file)
+            file.close()
+            return jsonData
+        else:
+            filename = object+"."+format
+            return FileResponse(path=getcwd() + "/data/"+filename, media_type='application/octet-stream', filename=filename)
     else:
-        filename = object+"."+format
-        return FileResponse(path=getcwd() + "/data/"+filename, media_type='application/octet-stream', filename=filename)
-
+        #File does not exist so return error
+        return "Error: REST/{0}/{1} data is not available".format(version,object)
 @app.get("/REST/{version}/dictionary/{object}")
 def read_dictionary(version, object, format:str="json"):
-    with open("metadata/schema/"+object+".yml") as ymlfile:
-        dictionary_entry = yaml.safe_load(ymlfile)
-        if format == "json":
-            ymlfile.close()
-            return dictionary_entry
-        else:
-            html="""<html>
+    fname = "metadata/schema/"+object+".yml"
+    #If file exists
+    if os.path.isfile(fname):
+        with open(fname) as ymlfile:
+            dictionary_entry = yaml.safe_load(ymlfile)
+            if format == "json":
+                ymlfile.close()
+                return dictionary_entry
+            else:
+                html="""<html>
 <head>
 <style>
 
@@ -80,3 +89,6 @@ tr:nth-child(even) {
             html+="</table></body></html>"
             ymlfile.close()
             return HTMLResponse(html)
+    else:
+        #File does not exist so return error
+        return "Error: REST/{0}/dictionary/{1} data is not available".format(version,object)
