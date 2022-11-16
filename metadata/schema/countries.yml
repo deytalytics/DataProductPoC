@@ -1,18 +1,21 @@
 #This metadata file will end up either feeding Collibra or being fed by Collibra
 fields:
-  - name: name
+  - name: Continent_Name
+    description: The name of the continent
+    datatype: String
+  - name: Continent_Code
+    description: The code that uniquely identifies the continent
+    datatype: String
+  - name: Country_Name
     description: The name of the country
     datatype: String
-  - name: alpha-2
+  - name: Two_Letter_Country_Code
     description: The original 2 letter code used by ISO to identify countries
     datatype: String
-  - name: alpha-3
+  - name: Three_Letter_Country_Code
     description: The original 3 letter code used by ISO to identify countries
     datatype: String
-  - name: country-code
-    description: The numerical code used by ISO to identify countries
-    datatype: String
-  - name: iso_3166-2
-    description: The ISO_3166-2 country code
-    datatype: String
+  - name: Country_Number
+    description: The number assigned to the country by ISO
+    datatype: Integer
 
