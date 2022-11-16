@@ -1,6 +1,10 @@
-A working example of this REST API is available
+A working example of this data product REST API is available
 at http://dp-poc.herokuapp.com/REST/v1/countries
-with documentation at:- http://dp-poc.herokuapp.com/docs
+which can be used by applications 
+or http://dp-poc.herokuapp.com/REST/v1/countries?format=CSV 
+which returns a CSV file so can be used by an end user or by a reporting tool
+
+The API documentation is at:- http://dp-poc.herokuapp.com/docs
 
 To amend for your own needs:-
 1. Add your source data to a file called data/{object}.csv
