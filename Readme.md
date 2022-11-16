@@ -1,7 +1,7 @@
 A working example of this data product REST API is available
 at http://dp-poc.herokuapp.com/REST/v1/countries
 which can be used by applications 
-or http://dp-poc.herokuapp.com/REST/v1/countries?format=CSV 
+or http://dp-poc.herokuapp.com/REST/v1/countries?format=csv
 which returns a CSV file so can be used by an end user or by a reporting tool
 
 The API documentation is at:- http://dp-poc.herokuapp.com/docs
