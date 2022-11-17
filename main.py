@@ -57,7 +57,8 @@ def read_root(version, object, format: str="json"):
                 jsonData = json.load(file)
             file.close()
             # Read the template for the data dictionary in to a string
-            with open('metadata\datadict_template.html', 'r') as htmltemplate:
+            metafile = os.path.join('metadata', 'datadict_template.html')
+            with open(metafile, 'r') as htmltemplate:
                 htmlstr = htmltemplate.read()
                 html = htmlstr % (object[0].upper() + object[1:])
                 #Lets add the headings
@@ -92,7 +93,8 @@ def read_dictionary(version, object, format:str="json"):
                 return dictionary_entry
             elif format == "html":
                 #Read the template for the data dictionary in to a string
-                with open('metadata\datadict_template.html','r') as htmltemplate:
+                metafile = os.path.join('metadata','datadict_template.html')
+                with open(metafile,'r') as htmltemplate:
                     htmlstr=htmltemplate.read()
                     html = htmlstr%(object[0].upper()+object[1:]+" data dictionary")
                     headings=['Name','Definition','Datatype']
