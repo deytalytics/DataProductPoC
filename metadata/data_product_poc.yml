@@ -7,11 +7,7 @@ description: |
  * Continents & Countries - these will be loaded into the master data management system on 1st Monday of January, March, July & October each year. 
  ## License Info
  [FastAPI license](https://fastapi.tiangolo.com/#license)
- ## Data Dictionary Entries
- [Continents and Countries](REST/v1/dictionary/countries?format=table)
  ### Contact
  [james_dey@hotmail.com](mailto://james_dey@hotmail.com)
- 
-
 version: 0.1
 terms_of_service: terms_of_service.url
