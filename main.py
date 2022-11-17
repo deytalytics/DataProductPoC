@@ -1,5 +1,5 @@
 from typing import Union
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse, HTMLResponse
 from os import getcwd
 from CSVtoJSON import csv_to_json
@@ -31,8 +31,8 @@ def read_root(version, object, format: str="json"):
             filename = object+"."+format
             return FileResponse(path=getcwd() + "/data/"+filename, media_type='application/octet-stream', filename=filename)
     else:
-        #File does not exist so return error
-        return "Error: REST/{0}/{1} data is not available".format(version,object)
+        #File does not exist so raise an exception
+        raise HTTPException(status_code=404, detail="{0}{1} data is not available".format(version,object))
 @app.get("/REST/{version}/dictionary/{object}")
 def read_dictionary(version, object, format:str="json"):
     fname = "metadata/schema/"+object+".yml"
@@ -90,5 +90,5 @@ tr:nth-child(even) {
             ymlfile.close()
             return HTMLResponse(html)
     else:
-        #File does not exist so return error
-        return "Error: REST/{0}/dictionary/{1} data is not available".format(version,object)
+        #File does not exist so raise an exception
+        raise HTTPException(status_code=404,detail="REST/{0}/dictionary/{1} data is not available".format(version,object))
