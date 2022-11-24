@@ -13,4 +13,8 @@ To amend for your own needs:-
 2. Add your schema file to metadata/schema/{object}.yml
 3. Amend metadata/data_product_poc.yml and add/edit links to the dictionary entry section.
 
+To run locally, from command line type 'uvicorn main:app --host 0.0.0.0 --port 8000'
+
+And then from url type:- http://127.0.0.1:8000/docs etc
+
 
