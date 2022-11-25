@@ -1,12 +1,12 @@
 A working example of this data product REST API is available
-at http://dp-poc.herokuapp.com/REST/0.1/countries
+at https://t-and-s-dp-poc.azurewebsites.net/REST/0.1/countries
 which can be used by applications 
-or http://dp-poc.herokuapp.com/REST/0.1/countries?format=csv
+or https://t-and-s-dp-poc.azurewebsites.net/REST/0.1/countries?format=csv
 which returns a CSV file so can be used by an end user or by a reporting tool
-or http://dp-poc.herokuapp.com/REST/0.1/countries?format=html
+or https://t-and-s-dp-poc.azurewebsites.net/REST/0.1/countries?format=html
 which allows an end user to see the content as a web page before downloading it
 
-The API documentation is at:- http://dp-poc.herokuapp.com/docs
+The API documentation is at:- https://t-and-s-dp-poc.azurewebsites.net/docs
 
 To amend for your own needs:-
 1. Add your source data to a file called data/{object}.csv
