@@ -4,6 +4,7 @@ from fastapi.responses import FileResponse, HTMLResponse
 from os import getcwd, listdir
 from CSVtoJSON import csv_to_json
 import yaml,json, os
+import logging
 
 # load in the metadata for the docs from the yaml file
 ymlf="metadata/data_product_poc.yml"
@@ -40,7 +41,7 @@ app = FastAPI(title=metadata['title'], description=metadata['description'],
 #Handle requests to root. Provide defaults for object of 'countries' and API message format of JSON
 @app.get("/REST/{version}/{object}")
 def read_root(version, object, format: str="json"):
-    print(Header(default=None))
+    print(logging.debug(Header(default=None)))
     fname = "data/" + object + ".json"
     #If file exists
     if os.path.isfile(fname):
