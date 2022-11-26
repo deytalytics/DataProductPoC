@@ -39,9 +39,12 @@ app = FastAPI(title=metadata['title'], description=metadata['description'],
 
 
 #Handle requests to root. Provide defaults for object of 'countries' and API message format of JSON
+@app.get("/aboutme")
+def about_me():
+    return Header(default=None)
+
 @app.get("/REST/{version}/{object}")
 def read_root(version, object, format: str="json"):
-    print(logging.debug(Header(default=None)))
     fname = "data/" + object + ".json"
     #If file exists
     if os.path.isfile(fname):
