@@ -1,5 +1,5 @@
 from typing import Union
-from fastapi import FastAPI, HTTPException, Header
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse, HTMLResponse
 from os import getcwd, listdir
 from CSVtoJSON import csv_to_json
@@ -40,9 +40,8 @@ app = FastAPI(title=metadata['title'], description=metadata['description'],
 
 #Handle requests to root. Provide defaults for object of 'countries' and API message format of JSON
 @app.get("/aboutme")
-def about_me():
-    logging.debug(Header(default=None))
-    return Header(default=None)
+async def root(request: Request):
+    return {"message": request.headers}
 
 @app.get("/REST/{version}/{object}")
 def read_root(version, object, format: str="json"):
