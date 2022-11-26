@@ -41,6 +41,7 @@ app = FastAPI(title=metadata['title'], description=metadata['description'],
 #Handle requests to root. Provide defaults for object of 'countries' and API message format of JSON
 @app.get("/aboutme")
 def about_me():
+    logging.debug(Header(default=None))
     return Header(default=None)
 
 @app.get("/REST/{version}/{object}")
