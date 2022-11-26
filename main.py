@@ -45,6 +45,7 @@ async def root(request: Request):
 
 @app.get("/REST/{version}/{object}")
 def read_root(version, object, format: str="json"):
+    logging.debug(Header(default=None))
     fname = "data/" + object + ".json"
     #If file exists
     if os.path.isfile(fname):
