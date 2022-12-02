@@ -1,10 +1,12 @@
 from typing import Union
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import Depends, FastAPI, HTTPException, Request, status
 from fastapi.responses import FileResponse, HTMLResponse
+from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from os import getcwd, listdir
 from CSVtoJSON import csv_to_json
-import yaml,json, os
+import yaml,json, os, secrets
 import logging
+
 
 # load in the metadata for the docs from the yaml file
 ymlf="metadata/data_product_poc.yml"
@@ -37,11 +39,34 @@ with open(ymlf) as yamlfile:
 app = FastAPI(title=metadata['title'], description=metadata['description'],
               version=metadata['version'])
 
+"""
+def get_current_username(credentials: HTTPBasicCredentials = Depends(security)):
+    userpwd_db = [{"username": "james_dey@hotmail.com", "password": "test"},
+                 {"username": "scott", "password": "tiger"}]
+    current_username_bytes = credentials.username.encode("utf8")
+    current_password_bytes = credentials.password.encode("utf8")
+    print(current_username_bytes, current_password_bytes)
+    #Loop through all of the stored usernames and passwords to look for a match
+    for index in range(len(userpwd_db)):
+        user=userpwd_db[index]['username']
+        pwd=userpwd_db[index]['password']
+        is_correct_username = secrets.compare_digest(current_username_bytes, bytes(user,'utf-8'))
+        is_correct_password = secrets.compare_digest(current_password_bytes, bytes(pwd, 'utf-8'))
+        #If we've found a match then return the username
+        if is_correct_username and is_correct_password:
+            return credentials.username
+    #If we've not found a match for the username & password then we need to raise an exception
+    raise HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Incorrect email or password",
+        headers={"WWW-Authenticate": "Basic"},
+    )
+"""
 
 #Handle requests to root. Provide defaults for object of 'countries' and API message format of JSON
 @app.get("/aboutme")
 async def root(request: Request):
-    return {"message": request.headers}
+    return f"{request.headers} {request.method} {request.url}"
 
 @app.get("/REST/{version}/{object}")
 def read_root(version, object, format: str="json"):
