@@ -72,6 +72,15 @@ async def root(request: Request):
 @app.get("/REST/{version}/{object}")
 def read_root(version, object, format: str="json", username: str=Depends(get_current_username)):
     fname = "data/" + object + ".json"
+    print(username)
+    if not username:
+        # If we've not found a match for the username & password then we need to raise an exception
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect email or password",
+            headers={"WWW-Authenticate": "Basic"},
+        )
+
     #If file exists
     if os.path.isfile(fname):
         #If the end user hasn't provided a format or has requested a format of JSON
