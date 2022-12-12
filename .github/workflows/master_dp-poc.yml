@@ -60,4 +60,4 @@ jobs:
         with:
           app-name: 'dp-poc'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E72888FD3ABD405890C5947780DDF18C }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_5ACC5E0396B4403EBFC384AF8A60BF1B }}
