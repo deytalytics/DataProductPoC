@@ -1,68 +1,31 @@
-from typing import Union
 from fastapi import Depends, FastAPI, HTTPException, Request, status
 from fastapi.responses import FileResponse, HTMLResponse
-from fastapi.security import HTTPBasic, HTTPBasicCredentials
-from os import getcwd, listdir
-from CSVtoJSON import csv_to_json
-import yaml,json, os, secrets
-import logging
+from strawberry.asgi import GraphQL
 
+from authentication import get_current_username
+import yaml,json, os
+from os import getcwd
+from load_metadata import load_metadata
+from graphql_schema import load_schema
+from load_data import load_data
 
-# load in the metadata for the docs from the yaml file
-ymlf="metadata/data_product_poc.yml"
-with open(ymlf) as yamlfile:
-    metadata = yaml.safe_load(yamlfile)
-    #Lets add to the /docs metadata the bits that might vary
-    metadata['description']+="## Path Parameter Lists of Values\n"
-    #Lets add all of the versions to the /docs metadata
-    versions=['0.1']
-    metadata['description']+="### Version\n"
-    for version in versions:
-        metadata['description'] += "* %s\n"%version
-    #Let's add all of the objects to the /odcs metadata
-    #get metadata schema path
-    path = os.path.join(getcwd(),"metadata","schema")
-    #Loop through all of the schema yaml filenames in the /metadata/schema directory
-    metadata['description']+="### Object\n"
-    for fname in listdir(path):
-        name = fname.split('.')[0]
-        #Add data dictionary entries for each object
-        metadata['description']+="* [%s](REST/%s/dictionary/%s?format=html)\n"%(name,metadata['version'],name)
-        #And also generate JSON files from the csv files in the /data directory
-        csv_to_json(name)
-    #Lets add all of the formats to the /docs metadata
-    formats=['json','csv','html']
-    metadata['description']+="## Query Parameter List of Values\n"
-    metadata['description']+="### Format\n"
-    for format in formats:
-        metadata['description'] += "* %s\n"%format
+#Import data
+jsonData = load_data("data/countries.json")
+
+#Fetch metadata for REST
+metadata = load_metadata()
+
+#Fetch metadata for GraphQL
+schema = load_schema(jsonData)
+graphql_app = GraphQL(schema)
+
+#Start the FastAPI server providing a title, description and version
 app = FastAPI(title=metadata['title'], description=metadata['description'],
               version=metadata['version'])
 
-security = HTTPBasic()
-
-def get_current_username(credentials: HTTPBasicCredentials = Depends(security)):
-    userpwd_db = [{"username": "james_dey@hotmail.com", "password": "test"},
-                 {"username": "scott", "password": "tiger"}]
-    current_username_bytes = credentials.username.encode("utf8")
-    current_password_bytes = credentials.password.encode("utf8")
-    #Loop through all of the stored usernames and passwords to look for a match
-    for index in range(len(userpwd_db)):
-        user=userpwd_db[index]['username']
-        pwd=userpwd_db[index]['password']
-        is_correct_username = secrets.compare_digest(current_username_bytes, bytes(user,'utf-8'))
-        is_correct_password = secrets.compare_digest(current_password_bytes, bytes(pwd, 'utf-8'))
-        #If we've found a match then return the username
-        if is_correct_username and is_correct_password:
-            return credentials.username
-    #If we've not found a match for the username & password then we need to raise an exception
-    raise HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Incorrect email or password",
-        headers={"WWW-Authenticate": "Basic"},
-    )
-
-
+#Add in the routing info for GraphQL
+app.add_route("/graphql", graphql_app)
+app.add_websocket_route("/graphql", graphql_app)
 
 #Handle requests to root. Provide defaults for object of 'countries' and API message format of JSON
 @app.get("/aboutme")
@@ -72,7 +35,6 @@ async def root(request: Request):
 @app.get("/REST/{version}/{object}")
 def read_root(version, object, format: str="json", username: str=Depends(get_current_username)):
     fname = "data/" + object + ".json"
-    print(username)
     if not username:
         # If we've not found a match for the username & password then we need to raise an exception
         raise HTTPException(
@@ -155,3 +117,4 @@ def read_dictionary(version, object, format:str="json"):
     else:
         #File does not exist so raise an exception
         raise HTTPException(status_code=404,detail="REST/{0}/dictionary/{1} data does not exist".format(version,object))
+

@@ -1,4 +1,4 @@
-﻿Continent_Name,Continent_Code,Country_Name,Two_Letter_Country_Code,Three_Letter_Country_Code,Country_Number
+﻿ContinentName,ContinentCode,CountryName,TwoLetterCountryCode,ThreeLetterCountryCode,CountryNumber
 Asia,AS,"Afghanistan, Islamic Republic of",AF,AFG,4
 Europe,EU,"Albania, Republic of",AL,ALB,8
 Antarctica,AN,Antarctica (the territory South of 60 deg S),AQ,ATA,10
