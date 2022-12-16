@@ -50,7 +50,7 @@ def read_root(version, object, format: str="json", username: str=Depends(get_cur
             with open(fname, "r") as file:
                 jsonData = json.load(file)
             file.close()
-            return jsonData
+            return {'data':{'countries': jsonData }}
         elif format=="csv":
             filename = object+"."+format
             return FileResponse(path=getcwd() + "/data/"+filename, media_type='application/octet-stream', filename=filename)
