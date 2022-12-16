@@ -12,10 +12,10 @@ def csv_to_json(object):
             # add this python dict to json array
             objectData.append(row)
         #Encapsulate the object data with info about the object
-        json_data = {'data': {object:objectData}}
+        #json_data = {'data': {object:objectData}}
 
     #Close the CSV file
     csvfile.close()
     #Write the JSON file
     with open("data/"+object+'.json', 'w') as json_file:
-        json.dump(json_data, json_file)
+        json.dump(objectData, json_file)

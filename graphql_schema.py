@@ -1,8 +1,7 @@
 from strawberry import Schema, type, field
-import typing, os, json
-from json import JSONEncoder
+import typing
 
-def load_schema(jsonData):
+def load_schema(objectData):
     @type
     class Country:
         ContinentName: str
@@ -16,26 +15,23 @@ def load_schema(jsonData):
     def get_countries(countryName, continentCode):
         if countryName:
             # Filter the countries based on the CountryName if the argument was supplied
-            filteredData = [d for d in jsonData if d.CountryName == countryName]
+            filteredData = [d for d in objectData if d.CountryName == countryName]
             return filteredData
         if continentCode:
             # Filter the countries based on the ContientCode if the argument was supplied
-            filteredData = [d for d in jsonData if d.ContinentCode == continentCode]
+            filteredData = [d for d in objectData if d.ContinentCode == continentCode]
             return filteredData
         else:
             #Otherwise just return the unfiltered data
-            return jsonData
+            return objectData
 
     #Define a legitimate query where continent and countries can be returned, filtered on CountryName if it is supplied
     @type
     class Query:
         @field
-        def countries(self, info, CountryName: str = None, ContinentCode: str = None) -> typing.List[Country]:
+        def countries(self, info, CountryName: typing.Optional[str], ContinentCode: typing.Optional[str]) -> typing.List[Country]:
             return get_countries(CountryName, ContinentCode)
 
 
     schema = Schema(query=Query)
     return schema
-
-
-
