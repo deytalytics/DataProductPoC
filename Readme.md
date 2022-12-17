@@ -25,7 +25,7 @@ And then from web browser type:-
 <code> http://127.0.0.1:8000/docs </code> etc
 
 There is also GraphQL functionality which can be queried by going to:-
-<br>[https://dp-pox.azurewebsites.net/graphql](https://dp-pox.azurewebsites.net/graphql) 
+<br>[https://dp-poc.azurewebsites.net/graphql](https://dp-pox.azurewebsites.net/graphql) 
 
 Using the GraphiQL console, you can query continent and country data
 
