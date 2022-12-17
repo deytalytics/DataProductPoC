@@ -3,7 +3,7 @@ from os import getcwd, listdir
 from CSVtoJSON import csv_to_json
 
 
-def load_metadata():
+def load_REST_metadata():
     # load in the metadata for the docs from the yaml file
     ymlf="metadata/data_product_poc.yml"
     with open(ymlf) as yamlfile:

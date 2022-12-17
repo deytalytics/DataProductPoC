@@ -5,18 +5,17 @@ from strawberry.asgi import GraphQL
 from authentication import get_current_username
 import yaml,json, os
 from os import getcwd
-from load_metadata import load_metadata
+from load_REST_metadata import load_REST_metadata
 from graphql_schema import load_schema
-from load_data import load_data
-
-#Import data
-jsonData = load_data("data/countries.json")
+from load_graphql_data import load_graphql_data
 
 #Fetch metadata for REST
-metadata = load_metadata()
+metadata = load_REST_metadata()
 
+#Import data into a Graphql named tuple
+objectData = load_graphql_data("data/countries.json")
 #Fetch metadata for GraphQL
-schema = load_schema(jsonData)
+schema = load_schema(objectData)
 graphql_app = GraphQL(schema)
 
 #Start the FastAPI server providing a title, description and version
